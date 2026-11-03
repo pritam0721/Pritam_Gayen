@@ -1,0 +1,99 @@
+/* ==========================================================================
+   1. BOX MODEL RESET & SYSTEM DEFAULTS
+   ========================================================================== */
+
+/* Lookups consensus: inherit box-sizing to cleanly manage nested elements and third-party tools */
+html {
+  box-sizing: border-box;
+  -webkit-text-size-adjust: none; /* Prevents font-size inflation on mobile landscape orientation */
+  text-size-adjust: none;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+/* Remove default margins while ensuring structural predictability */
+body,
+h1, h2, h3, h4, p,
+figure,
+blockquote,
+dl,
+dd {
+  margin: 0;
+}
+
+/* ==========================================================================
+   2. BODY & BASE TYPOGRAPHY
+   ========================================================================== */
+body {
+ background: red;
+}
+
+/* Readable line length guidelines for content blocks */
+p, li, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+}
+
+/* ==========================================================================
+   3. MEDIA & INTERACTIVE ELEMENTS
+   ========================================================================== */
+
+/* Fix inline-block alignment gaps and scaling overflows */
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Inherit font styling for input forms */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+/* Clear list styles only when used as structured semantic layout panels */
+ul[role="list"],
+ol[role="list"] {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Focus and accessibility outlines */
+a:not([class]) {
+  text-decoration-skip-ink: auto;
+}
+
+:focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 4px;
+}
+
+/* ==========================================================================
+   4. ACCESSIBILITY / USER PREFERENCES
+   ========================================================================== */
+
+/* Respect system motion flags by disabling sudden jumps and transitions */
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto;
+  }
+  
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
