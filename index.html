@@ -1,22 +1,92 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Pritam Gayen</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Manrope:wght@200;300;400;500&display=swap"
-      rel="stylesheet"
-    />
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
-    <link rel="stylesheet" href="/style.css" />
-  </head>
-  <body>
-    <p>I am pritam gayen</p>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pritam Gayen</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Manrope:wght@200;300;400;500&display=swap"
+    rel="stylesheet" />
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+
+<body class="theme-light">
+  <svg style="width: 0; height: 0; position: absolute">
+    <filter id="liquidFilter">
+      <feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="3" result="warp"></feTurbulence>
+      <feDisplacementMap in="SourceGraphic" in2="warp" scale="0" xChannelSelector="R" yChannelSelector="G"
+        id="liquidMap"></feDisplacementMap>
+    </filter>
+  </svg>
+  <!-- cursor and noise -->
+  <div class="noise"></div>
+  <div class="cursor-dot"></div>
+  <div class="cursor-ring"></div>
+  <!-- loader  -->
+  <div class="loader">
+    <div class="k-container">
+      <div class="t-caption text-muted mb-4">Brewing Creativity</div>
+
+      <div class="kinetic-countdown">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </div>
+
+  <nav class="nav">
+    <div class="t-caption text-muted">Vol. 1</div>
+    <div class="t-caption text-muted">The Editorial Perspective</div>
+  </nav>
+  <main>
+    <section class="section s-hero padding-x">
+      <div class="hero-content">
+        <div class="t-caption text-muted mb-4 gs-fade" style="letter-spacing: 0.25em;">A Deep Dive into Emotion</div>
+        <h1 class="t-display split-words">The Pursuit</h1>
+        <h1 class="t-display split-words" style="margin-left: 8vw;"><span class="italic">of</span> Joy.</h1>
+      </div>
+
+      <div class="img-mask hero-img-box hover-scale hover-target" id="hero-img">
+        <img src="https://images.unsplash.com/photo-1493246507139-91e8fad9978e?q=80&w=2000&auto=format&fit=crop"
+          class="img-parallax" alt="Ocean Liquid Texture">
+      </div>
+    </section>
+  </main>
+  <script src="./script.js"></script>
+</body>
+
 </html>

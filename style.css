@@ -1,99 +1,220 @@
-/* ==========================================================================
-   1. BOX MODEL RESET & SYSTEM DEFAULTS
-   ========================================================================== */
-
-/* Lookups consensus: inherit box-sizing to cleanly manage nested elements and third-party tools */
-html {
-  box-sizing: border-box;
-  -webkit-text-size-adjust: none; /* Prevents font-size inflation on mobile landscape orientation */
-  text-size-adjust: none;
-}
-
-*,
-*::before,
-*::after {
-  box-sizing: inherit;
-}
-
-/* Remove default margins while ensuring structural predictability */
-body,
-h1, h2, h3, h4, p,
-figure,
-blockquote,
-dl,
-dd {
-  margin: 0;
-}
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700&display=swap');
 
 /* ==========================================================================
-   2. BODY & BASE TYPOGRAPHY
-   ========================================================================== */
-body {
- background: red;
+           01. CORE SYSTEM & VARIABLES
+           ========================================================================== */
+        :root {
+            /* High-End Editorial Gallery Palette */
+            --bg-light: #F2EFE9;     /* Warm Cashmere/Alabaster */
+            --text-dark: #1C1A17;    /* Deep Soft Onyx */
+            --bg-dark: #151412;      /* Midnight Onyx */
+            --text-light: #F2EFE9;   /* Warm Cashmere */
+
+            --accent: #B75C40;       /* Refined Burnt Terracotta */
+            --text-muted: #857F75;   /* Sophisticated Taupe/Grey for small text */
+            
+            --font-serif: 'Cormorant Garamond', serif;
+            --font-sans: 'Manrope', sans-serif;
+            --font-countdown:'Bricolage Grotesque', sans-serif;
+            --pad-x: 5vw;
+        }
+        
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html, body {
+            width: 100%; min-height: 100vh;
+            background-color: var(--bg-light); color: var(--text-dark);
+            font-family: var(--font-sans); font-weight: 300;
+            -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden; cursor: none;
+            transition: background-color 0.8s ease, color 0.8s ease;
+        }
+         ::selection { background-color: var(--accent); color: #fff; }
+          /* Smooth Scroll Engine Fixes */
+        html.lenis { height: auto; }
+        .lenis.lenis-smooth { scroll-behavior: auto; }
+        .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+        .lenis.lenis-stopped { overflow: hidden; }
+         /* Cinematic Noise Overlay */
+        .noise {
+            position: fixed; inset: 0; z-index: 9998; pointer-events: none; opacity: 0.05; mix-blend-mode: multiply;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+        body.theme-dark .noise { mix-blend-mode: overlay; opacity: 0.08; }
+        body.theme-dark { background-color: var(--bg-dark); color: var(--text-light); }
+        body.theme-light { background-color: var(--bg-light); color: var(--text-dark); }
+                /* ==========================================================================
+           02. TYPOGRAPHY
+           ========================================================================== */
+        .t-display { font-family: var(--font-serif); font-size: clamp(4.5rem, 13vw, 16rem); line-height: 0.85; font-weight: 400; letter-spacing: -0.02em; margin: 0;}
+        .t-h1 { font-family: var(--font-serif); font-size: clamp(3rem, 8vw, 10rem); line-height: 0.9; font-weight: 400; letter-spacing: -0.01em; margin: 0;}
+        .t-h2 { font-family: var(--font-sans); font-size: clamp(2rem, 4vw, 5rem); line-height: 1; font-weight: 300; letter-spacing: -0.02em; margin: 0;}
+        .t-h3 { font-family: var(--font-serif); font-size: clamp(1.5rem, 3vw, 4rem); font-style: italic; font-weight: 400; margin: 0;}
+        
+        .t-body { font-size: clamp(1.1rem, 1.3vw, 1.5rem); line-height: 1.6; max-width: 550px; opacity: 0.85; }
+        
+        .t-caption { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.15em; font-weight: 500; }
+        .text-accent { color: var(--accent) !important; }
+        .text-muted { color: var(--text-muted) !important; }
+        .font-serif { font-family: var(--font-serif); }
+        .italic { font-style: italic; }
+        .text-center { text-align: center; }
+
+        .flex-center { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+
+        .word-wrap { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: 0.15em; }
+        .word { display: inline-block; transform: translateY(115%); will-change: transform; transform-origin: top left; }
+              /* ==========================================================================
+           03. MAGNETIC CURSOR UI
+           ========================================================================== */
+        .cursor-dot {
+            position: fixed; top: 0; left: 0; width: 6px; height: 6px; border-radius: 50%;
+            background: var(--accent); pointer-events: none; z-index: 100000; transform: translate(-50%, -50%);
+        }
+        .cursor-ring {
+            position: fixed; top: 0; left: 0; width: 45px; height: 45px; border-radius: 50%;
+            border: 1px solid rgba(28, 26, 23, 0.3); pointer-events: none; z-index: 99999;
+            transform: translate(-50%, -50%); display: flex; align-items: center; justify-content: center;
+            font-family: var(--font-sans); font-size: 10px; font-weight: 600; letter-spacing: 0.1em; color: transparent;
+            transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1), height 0.4s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.4s, border-color 0.4s;
+        }
+        body.theme-dark .cursor-ring { border-color: rgba(242, 239, 233, 0.3); }
+        
+        .cursor-ring.active { width: 90px; height: 90px; background-color: var(--text-dark); border-color: transparent; color: var(--bg-light); mix-blend-mode: normal; }
+        body.theme-dark .cursor-ring.active { background-color: var(--text-light); color: var(--bg-dark); }
+
+        .nav { position: fixed; top: 0; left: 0; width: 100%; padding: 2.5vw var(--pad-x); display: flex; justify-content: space-between; z-index: 900; mix-blend-mode: difference; color: #fff; pointer-events: none; }
+        .loader { position: fixed; inset: 0; background: #101010; color: #e0e0e0; z-index: 999999; display: grid; place-items: center; padding: var(--pad-x); }
+        .loader > .t-caption { position: absolute; top: var(--pad-x); color: #e0e0e0 !important; }
+        .loader-perc { font-family: var(--font-serif); font-size: 16vw; line-height: 0.8; font-weight: 400; }
+        .loader-bar-wrap { width: 100%; height: 1px; background: rgba(255,255,255,0.15); position: relative; overflow: hidden; }
+        .loader-bar { position: absolute; top: 0; left: 0; height: 100%; width: 0%; background: var(--text-light); }
+
+        /* kinetic count-down */
+.k-container {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  pointer-events: none;
 }
 
-/* Readable line length guidelines for content blocks */
-p, li, h1, h2, h3, h4, h5, h6 {
-  overflow-wrap: break-word;
+.k-container > .t-caption {
+  position: absolute;
+  top: var(--pad-x);
+  color: #e0e0e0 !important;
 }
 
-/* ==========================================================================
-   3. MEDIA & INTERACTIVE ELEMENTS
-   ========================================================================== */
+.kinetic-countdown {
+  --columns: 5;
+  --size: min(60vmin, 40rem);
+  --cell-size: calc(var(--size) / var(--columns));
+  --speed: 1000ms;
+  --stagger: 50ms;
+  --scale-from: .2;
+  --scale-to: 1;
+  --scale-size: .7;
 
-/* Fix inline-block alignment gaps and scaling overflows */
-img,
-picture,
-video,
-canvas,
-svg {
+  display: grid;
+  grid-template-columns: repeat(var(--columns), 1fr);
+  grid-template-rows: repeat(var(--columns), 1fr);
+  width: var(--size);
+  height: var(--size);
+}
+
+@property --number {
+  syntax: '<integer>';
+  inherits: false;
+  initial-value: 9;
+}
+
+@property --zoom {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+
+.kinetic-countdown > span {
+  --x: 0;
+  --y: 0;
+  --dx: calc(var(--x) - (var(--columns) - 1) / 2);
+  --dy: calc(var(--y) - (var(--columns) - 1) / 2);
+
+  position: relative;
   display: block;
-  max-width: 100%;
-  height: auto;
+  overflow: hidden;
 }
 
-/* Inherit font styling for input forms */
-input,
-button,
-textarea,
-select {
-  font: inherit;
+.kinetic-countdown > span:nth-of-type(5n + 1) { --x: 0; }
+.kinetic-countdown > span:nth-of-type(5n + 2) { --x: 1; }
+.kinetic-countdown > span:nth-of-type(5n + 3) { --x: 2; }
+.kinetic-countdown > span:nth-of-type(5n + 4) { --x: 3; }
+.kinetic-countdown > span:nth-of-type(5n + 5) { --x: 4; }
+
+.kinetic-countdown > span:nth-of-type(n + 6) { --y: 1; }
+.kinetic-countdown > span:nth-of-type(n + 11) { --y: 2; }
+.kinetic-countdown > span:nth-of-type(n + 16) { --y: 3; }
+.kinetic-countdown > span:nth-of-type(n + 21) { --y: 4; }
+
+.kinetic-countdown > span::before {
+  --delay: calc((max(var(--dx), -1 * var(--dx)) + max(var(--dy), -1 * var(--dy))) * var(--stagger));
+  --scale-t: calc(var(--scale-from) + (var(--scale-to) - var(--scale-from)) * var(--zoom));
+  --scale-min: calc(var(--scale-size) / var(--columns));
+  --scale: calc(var(--scale-min) + (1 - var(--scale-min)) * var(--scale-t));
+
+  counter-reset: number var(--number);
+  content: counter(number);
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-variation-settings: "wdth" 100;
+  font-style: normal;
+  font-size: calc(var(--size) / .73);
+  line-height: 1;
+  text-box: trim-both cap alphabetic;
+
+  transform:
+    translate(-50%, -50%)
+    translate(
+      calc(var(--dx) * var(--cell-size) * var(--scale-t) * -1),
+      calc(var(--dy) * var(--cell-size) * var(--scale-t) * -1)
+    )
+    scale(var(--scale))
+  ;
+
+  animation:
+    countdown calc(var(--speed) * 10) steps(10, jump-none) 1 both,
+    grow calc(var(--speed) / 2) cubic-bezier(0.65, 0, 0.35, 1) infinite alternate both
+  ;
+
+  animation-delay: 0s, var(--delay);
 }
 
-/* Clear list styles only when used as structured semantic layout panels */
-ul[role="list"],
-ol[role="list"] {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+@keyframes countdown {
+  from { --number: 9; }
+  to { --number: 0; }
 }
 
-/* Focus and accessibility outlines */
-a:not([class]) {
-  text-decoration-skip-ink: auto;
+@keyframes grow {
+  to { --zoom: 1; }
 }
 
-:focus-visible {
-  outline: 3px solid currentColor;
-  outline-offset: 4px;
+.kinetic-countdown.is-finished > span::before {
+  animation: none;
+  --number: 0;
+  --zoom: 1;
 }
 
-/* ==========================================================================
-   4. ACCESSIBILITY / USER PREFERENCES
-   ========================================================================== */
-
-/* Respect system motion flags by disabling sudden jumps and transitions */
 @media (prefers-reduced-motion: reduce) {
-  html:focus-within {
-    scroll-behavior: auto;
-  }
-  
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
+  .kinetic-countdown > span::before {
+    animation: none;
+    --number: 9;
+    --zoom: 1;
   }
 }
