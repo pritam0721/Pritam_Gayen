@@ -115,6 +115,7 @@
   --scale-from: .2;
   --scale-to: 1;
   --scale-size: .7;
+  --number: 9;
 
   display: grid;
   grid-template-columns: repeat(var(--columns), 1fr);
@@ -125,7 +126,7 @@
 
 @property --number {
   syntax: '<integer>';
-  inherits: false;
+  inherits: true;
   initial-value: 9;
 }
 
@@ -188,17 +189,9 @@
     scale(var(--scale))
   ;
 
-  animation:
-    countdown calc(var(--speed) * 10) steps(10, jump-none) 1 both,
-    grow calc(var(--speed) / 2) cubic-bezier(0.65, 0, 0.35, 1) infinite alternate both
-  ;
+  animation: grow calc(var(--speed) / 2) cubic-bezier(0.65, 0, 0.35, 1) infinite alternate both;
 
-  animation-delay: 0s, var(--delay);
-}
-
-@keyframes countdown {
-  from { --number: 9; }
-  to { --number: 0; }
+  animation-delay: var(--delay);
 }
 
 @keyframes grow {

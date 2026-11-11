@@ -32,31 +32,14 @@ document.addEventListener('DOMContentLoaded', () => {
           window.addEventListener('load', resolve, { once: true });
         });
 
-  const countdownFinished = window.matchMedia(
+  const reducedMotion = window.matchMedia(
     '(prefers-reduced-motion: reduce)',
-  ).matches
-    ? Promise.resolve()
-    : Promise.all(
-      Array.from(countdown.children, (cell) => {
-        return new Promise((resolve) => {
-          const handleAnimationEnd = (event) => {
-            if (
-              event.animationName === 'countdown' &&
-              event.pseudoElement === '::before'
-            ) {
-              cell.removeEventListener('animationend', handleAnimationEnd);
-              resolve();
-            }
-          };
+  ).matches;
+  const countdownProgress = { value: 9 };
 
-          cell.addEventListener('animationend', handleAnimationEnd);
-        });
-      }),
-      ).then(() => {
-      countdown.classList.add('is-finished');
-      });
+  const revealPage = () => {
+    countdown.classList.add('is-finished');
 
-  Promise.all([pageLoaded, countdownFinished]).then(() => {
     gsap
       .timeline({
         onComplete: () => {
@@ -67,23 +50,55 @@ document.addEventListener('DOMContentLoaded', () => {
       })
       .to(loader, {
         yPercent: -100,
-        duration: 1.2,
+        duration: reducedMotion ? 0 : 1.2,
         ease: 'power4.inOut',
       })
       .to(
         '.nav',
-        { autoAlpha: 1, y: 0, duration: 0.8, ease: 'power3.out' },
-        '-=0.4',
+        {
+          autoAlpha: 1,
+          y: 0,
+          duration: reducedMotion ? 0 : 0.8,
+          ease: 'power3.out',
+        },
+        reducedMotion ? '>' : '-=0.4',
       )
       .to(
         '.s-hero .word',
-        { y: '0%', duration: 1.2, stagger: 0.05, ease: 'power4.out' },
-        '-=0.5',
+        {
+          y: '0%',
+          duration: reducedMotion ? 0 : 1.2,
+          stagger: reducedMotion ? 0 : 0.05,
+          ease: 'power4.out',
+        },
+        reducedMotion ? '>' : '-=0.5',
       )
       .to(
         '.s-hero .gs-fade',
-        { autoAlpha: 1, y: 0, duration: 1, ease: 'power3.out' },
-        '-=0.8',
+        {
+          autoAlpha: 1,
+          y: 0,
+          duration: reducedMotion ? 0 : 1,
+          ease: 'power3.out',
+        },
+        reducedMotion ? '>' : '-=0.8',
       );
+  };
+
+  pageLoaded.then(() => {
+    if (reducedMotion) {
+      revealPage();
+      return;
+    }
+
+    gsap.to(countdownProgress, {
+      value: 0,
+      duration: 9,
+      ease: 'none',
+      onUpdate: () => {
+        countdown.style.setProperty('--number', Math.ceil(countdownProgress.value));
+      },
+      onComplete: revealPage,
+    });
   });
 });
