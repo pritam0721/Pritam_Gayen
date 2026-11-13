@@ -18,13 +18,6 @@
 </head>
 
 <body class="theme-light">
-  <svg style="width: 0; height: 0; position: absolute">
-    <filter id="liquidFilter">
-      <feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="3" result="warp"></feTurbulence>
-      <feDisplacementMap in="SourceGraphic" in2="warp" scale="0" xChannelSelector="R" yChannelSelector="G"
-        id="liquidMap"></feDisplacementMap>
-    </filter>
-  </svg>
   <!-- cursor and noise -->
   <div class="noise"></div>
   <div class="cursor-dot"></div>
@@ -68,22 +61,221 @@
     </div>
   </div>
 
-  <nav class="nav">
-    <div class="t-caption text-muted">Vol. 1</div>
-    <div class="t-caption text-muted">The Editorial Perspective</div>
+  <nav class="nav" aria-label="Main navigation">
+    <div class="nav-brand t-caption">Pritam Gayen</div>
+    <div class="nav-links t-caption">
+      <a href="#work">Work</a>
+      <a href="#stack">Stack</a>
+      <a href="#contact">Contact</a>
+    </div>
   </nav>
   <main>
     <section class="section s-hero padding-x">
       <div class="hero-content">
-        <div class="t-caption text-muted mb-4 gs-fade" style="letter-spacing: 0.25em;">A Deep Dive into Emotion</div>
-        <h1 class="t-display split-words">The Pursuit</h1>
-        <h1 class="t-display split-words" style="margin-left: 8vw;"><span class="italic">of</span> Joy.</h1>
+        <div class="t-caption text-muted mb-4 gs-fade">Full stack engineer</div>
+        <h1 class="t-display hero-title">I build systems</h1>
+        <h1 class="t-display hero-title hero-line-offset">that run the business.</h1>
+        <div class="hero-actions gs-fade">
+          <a class="hero-action hero-action-primary" href="#work">Explore my work</a>
+          <a class="hero-action hero-action-secondary" href="#contact">Get in touch</a>
+        </div>
+      </div>
+      <div class="img-mask hero-img-box hover-scale hover-target" id="hero-img">
+        <img src="assets/hero.png" class="img-parallax" alt="Illustrated portrait of Pritam Gayen" width="2125"
+          height="2125" fetchpriority="high" decoding="async">
+      </div>
+    </section>
+    <!-- 2. HIGHLIGHT SENTENCE: your pitch, with inline image pills (use project screenshots) -->
+    <section class="section s-creative padding-y padding-x theme-light">
+      <div class="hl-container">
+        <span class="hl-word">I</span>
+        <span class="hl-word">take</span>
+        <span class="hl-word serif">software</span>
+        <span class="hl-word">from</span>
+        <span class="hl-img pill hover-target" style="background-image: url('assets/pill-erp.jpg');"></span>
+        <span class="hl-word">first</span>
+        <span class="hl-word">idea</span>
+        <span class="hl-word">to</span>
+        <span class="hl-img circle hover-target" style="background-image: url('assets/pill-server.jpg');"></span>
+        <span class="hl-word serif">production,</span>
+        <br class="desktop-only">
+        <span class="hl-word">front</span>
+        <span class="hl-word">end,</span>
+        <span class="hl-word">back</span>
+        <span class="hl-word">end</span>
+        <span class="hl-word">and</span>
+        <span class="hl-img arch hover-target" style="background-image: url('assets/pill-linux.jpg');"></span>
+        <span class="hl-word">the</span>
+        <span class="hl-word serif" style="border-bottom: 3px solid var(--accent);">server.</span>
+      </div>
+    </section>
+
+    <!-- 3. EXPAND SECTION: your one big "wow" moment. Full-bleed image grows to fullscreen -->
+    <section class="section s-expand theme-dark" id="expand-trigger">
+      <div class="expand-wrapper">
+        <div class="expand-container" id="expand-box">
+          <!-- Best use: a full-width product screenshot or demo video poster -->
+          <img loading="lazy" src="assets/expand.jpg" alt="Full-width view of a shipped product" class="expand-img"
+            id="expand-img">
+        </div>
+        <div class="expand-text w-full flex-center">
+          <div class="t-caption mb-4" style="color: rgba(255,255,255,0.7);">Sole developer, early-stage company</div>
+          <h2 class="t-display italic" style="color: #fff;">Shipped.</h2>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. HORIZONTAL SCROLL: one panel per case study (id="work" anchor goes here) -->
+    <section class="s-horiz theme-light" id="hz-trigger">
+      <span id="work"></span>
+      <div class="horiz-track">
+
+        <div class="h-panel">
+          <div class="h-text">
+            <div class="t-caption text-accent mb-6 gs-fade">Custom ERP</div>
+            <h2 class="t-h2 split-words mb-6"><span class="italic font-serif">Company ERP.</span></h2>
+            <p class="t-body gs-fade">Built and deployed alone, front end and back end, on Python and MariaDB. Includes
+              an
+              accounts module for daily journals, expenses and miscellaneous transactions.</p>
+            <!-- Optional: tags -->
+            <div class="t-caption text-muted gs-fade">Python / MariaDB / Linux</div>
+          </div>
+          <div class="img-mask h-img hz-img hover-scale hover-target">
+            <img loading="lazy" src="assets/erp.jpg" class="img-parallax" alt="ERP screenshot">
+          </div>
+        </div>
+
+        <div class="h-panel">
+          <div class="h-text">
+            <div class="t-caption text-accent mb-6 gs-fade">Employee platform</div>
+            <h2 class="t-h2 split-words mb-6"><span class="italic font-serif">Role-based HR.</span></h2>
+            <p class="t-body gs-fade">Built on Frappe/HRMS with a team of 2-3 engineers. HR runs payroll, attendance and
+              interviews, directors get an operations dashboard, and employees download their own PF statements.</p>
+            <div class="t-caption text-muted gs-fade">Frappe / HRMS / Python</div>
+          </div>
+          <div class="img-mask h-img hz-img hover-scale hover-target">
+            <img loading="lazy" src="assets/hrms.jpg" class="img-parallax" alt="HR platform screenshot">
+          </div>
+        </div>
+
+        <div class="h-panel">
+          <div class="h-text">
+            <div class="t-caption text-accent mb-6 gs-fade">Client platform</div>
+            <h2 class="t-h2 split-words mb-6"><span class="italic font-serif">Jigsaw Compliance.</span></h2>
+            <p class="t-body gs-fade">Technical build of an international platform for car finance claims, delivered as
+              the
+              sole developer while coordinating with larger teams. (Confirm you may name the client.)</p>
+            <div class="t-caption text-muted gs-fade">Full stack / Client delivery</div>
+          </div>
+          <div class="img-mask h-img hz-img hover-scale hover-target">
+            <img loading="lazy" src="assets/jigsaw.jpg" class="img-parallax" alt="Jigsaw Compliance screenshot">
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 5. HOVER LIST: your stack, 5 rows map to the 5 images in the cursor gallery -->
+    <section class="section s-list theme-dark padding-y padding-x" id="theme-trigger-dark">
+      <span id="stack"></span>
+      <div class="t-caption text-accent mb-10 gs-fade text-center">What I work with</div>
+
+      <div class="list-wrap" id="hover-list">
+        <div class="l-item hover-trigger" data-idx="0">
+          <h3 class="t-h1 l-title">Front end</h3>
+          <span class="t-caption">React, Next.js, TypeScript, HTML/CSS</span>
+        </div>
+        <div class="l-item hover-trigger" data-idx="1">
+          <h3 class="t-h1 l-title">Back end</h3>
+          <span class="t-caption">Python, Frappe, Node.js, Express, REST</span>
+        </div>
+        <div class="l-item hover-trigger" data-idx="2">
+          <h3 class="t-h1 l-title">Data</h3>
+          <span class="t-caption">MariaDB, MongoDB, Redis, SQL</span>
+        </div>
+        <div class="l-item hover-trigger" data-idx="3">
+          <h3 class="t-h1 l-title">Deploy and secure</h3>
+          <span class="t-caption">Docker, CI/CD, AWS, Linux hardening</span>
+        </div>
+        <div class="l-item hover-trigger" data-idx="4">
+          <h3 class="t-h1 l-title">AI</h3>
+          <span class="t-caption">LangChain (learning), agentic workflows, Copilot</span>
+        </div>
       </div>
 
-      <div class="img-mask hero-img-box hover-scale hover-target" id="hero-img">
-        <img src="https://images.unsplash.com/photo-1493246507139-91e8fad9978e?q=80&w=2000&auto=format&fit=crop"
-          class="img-parallax" alt="Ocean Liquid Texture">
+      <!-- Same 5 slots. Use code screenshots, logos or terminal captures instead of stock photos -->
+      <div class="cursor-img-follower" id="cursor-gallery">
+        <div class="cg-inner">
+          <img src="assets/cg-frontend.jpg" class="cg-img active" alt="Front end code">
+          <img src="assets/cg-backend.jpg" class="cg-img" alt="Back end code">
+          <img src="assets/cg-data.jpg" class="cg-img" alt="Database schema">
+          <img src="assets/cg-devops.jpg" class="cg-img" alt="Terminal on the server">
+          <img src="assets/cg-ai.jpg" class="cg-img" alt="Agent workflow diagram">
+        </div>
       </div>
+    </section>
+
+    <!-- 6. MARQUEE: keep the 3 repeated lines -->
+    <section class="section theme-dark s-marquee">
+      <div class="marquee-wrap">
+        <h1 class="marquee-text">PYTHON ✦ REACT ✦ TYPESCRIPT ✦ DOCKER ✦ LINUX ✦ </h1>
+        <h1 class="marquee-text">PYTHON ✦ REACT ✦ TYPESCRIPT ✦ DOCKER ✦ LINUX ✦ </h1>
+        <h1 class="marquee-text">PYTHON ✦ REACT ✦ TYPESCRIPT ✦ DOCKER ✦ LINUX ✦ </h1>
+      </div>
+    </section>
+
+    <!-- 7. PARALLAX GRID: more work. 6 tiles, add a caption under each if you like -->
+    <section class="section padding-y padding-x theme-light" id="theme-trigger-light">
+      <div class="flex-center w-full mx-auto" style="margin-bottom: 8vh; max-width: 900px;">
+        <div class="t-caption text-accent mb-6 gs-fade">More work</div>
+        <h2 class="t-body-lg gs-fade"
+          style="text-align: center; font-size: clamp(1.5rem, 3vw, 3rem); font-family: var(--font-serif); font-style: italic;">
+          Side projects, internship work and open source.
+        </h2>
+      </div>
+
+      <div class="archive-grid">
+        <div class="grid-col" data-speed="1.2">
+          <a class="img-mask ar-square hover-scale hover-target" href="#"><img loading="lazy" src="assets/ecommerce.jpg"
+              class="img-parallax" alt="MERN e-commerce platform"></a>
+          <a class="img-mask ar-portrait hover-scale hover-target" href="#"><img loading="lazy" src="assets/editor.jpg"
+              class="img-parallax" alt="Collaborative code editor"></a>
+        </div>
+        <div class="grid-col" data-speed="0.85">
+          <a class="img-mask ar-portrait hover-scale hover-target" href="#"><img loading="lazy" src="assets/booking.jpg"
+              class="img-parallax" alt="1Stop Booking backend"></a>
+          <a class="img-mask ar-square hover-scale hover-target" href="#"><img loading="lazy" src="assets/blog.jpg"
+              class="img-parallax" alt="Technical blog"></a>
+        </div>
+        <div class="grid-col" data-speed="1.1">
+          <a class="img-mask ar-square hover-scale hover-target" href="#"><img loading="lazy"
+              src="assets/opensource.jpg" class="img-parallax" alt="Open-source contributions"></a>
+          <a class="img-mask ar-portrait hover-scale hover-target" href="#"><img loading="lazy"
+              src="assets/hackathon.jpg" class="img-parallax" alt="Hackathon project"></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. CONTACT + FOOTER -->
+    <section class="section theme-light padding-x" id="contact"
+      style="justify-content: flex-end; padding-bottom: 4vh; padding-top: 15vh;">
+      <div class="text-center w-full" style="margin-bottom: 15vh;">
+        <h2 class="t-h2 split-words mb-4">Have a system that needs building?</h2>
+        <h1 class="t-display split-words text-accent italic">Let's talk.</h1>
+        <p class="t-body mt-4"><a class="hover-target"
+            href="mailto:pritamgayen629@gmail.com">pritamgayen629@gmail.com</a>
+        </p>
+      </div>
+
+      <footer class="w-full gs-fade"
+        style="border-top: 1px solid rgba(28,26,23,0.15); padding-top: 2vw; display: flex; justify-content: space-between; align-items: center;">
+        <div class="t-caption text-muted">© 2026 Pritam Gayen</div>
+        <div class="t-caption">
+          <a class="hover-target" href="https://github.com/your-username">GitHub</a> &nbsp;
+          <a class="hover-target" href="https://linkedin.com/in/your-username">LinkedIn</a> &nbsp;
+          <a class="hover-target text-accent" href="/Pritam_Gayen_CV.pdf">Resume</a>
+        </div>
+      </footer>
     </section>
   </main>
   <script src="./script.js"></script>
