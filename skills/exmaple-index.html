@@ -1,0 +1,278 @@
+</head>
+
+<body class="theme-light">
+
+ <svg style="width:0;height:0;position:absolute;">
+  <filter id="liquidFilter">
+   <feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="3" result="warp"></feTurbulence>
+   <feDisplacementMap in="SourceGraphic" in2="warp" scale="0" xChannelSelector="R" yChannelSelector="G" id="liquidMap">
+   </feDisplacementMap>
+  </filter>
+ </svg>
+
+ <div class="noise"></div>
+ <div class="cursor-dot"></div>
+ <div class="cursor-ring"></div>
+
+ <div class="loader">
+  <div class="t-caption text-muted mb-4">Establishing Environment</div>
+  <div class="loader-perc">0</div>
+  <div class="loader-bar-wrap">
+   <div class="loader-bar"></div>
+  </div>
+ </div>
+
+ <nav class="nav">
+  <div class="t-caption text-muted">Vol. V</div>
+  <div class="t-caption text-muted">The Editorial Perspective</div>
+ </nav>
+
+ <main>
+
+  <section class="section s-hero padding-x">
+   <div class="hero-content">
+    <div class="t-caption text-muted mb-4 gs-fade" style="letter-spacing: 0.25em;">A Deep Dive into Emotion</div>
+    <h1 class="t-display split-words">The Pursuit</h1>
+    <h1 class="t-display split-words" style="margin-left: 8vw;"><span class="italic">of</span> Joy.</h1>
+   </div>
+
+   <div class="img-mask hero-img-box hover-scale hover-target" id="hero-img">
+    <img src="https://images.unsplash.com/photo-1493246507139-91e8fad9978e?q=80&w=2000&auto=format&fit=crop"
+     class="img-parallax" alt="Ocean Liquid Texture">
+   </div>
+  </section>
+
+  <section class="section s-creative padding-y padding-x theme-light">
+   <div class="hl-container">
+    <span class="hl-word">True</span>
+    <span class="hl-word serif">happiness</span>
+    <span class="hl-word">is</span>
+    <span class="hl-word">not</span>
+    <span class="hl-word">a</span>
+
+    <span class="hl-img pill hover-target"
+     style="background-image: url('https://images.unsplash.com/photo-1518002171953-a080ee817e1f?q=80&w=600&auto=format&fit=crop');"></span>
+
+    <span class="hl-word">geographical</span>
+    <br class="desktop-only">
+
+    <span class="hl-word">c</span>
+    <span class="hl-img circle hover-target"
+     style="background-image: url('https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?q=80&w=400&auto=format&fit=crop');"></span>
+    <span class="hl-img circle hover-target"
+     style="background-image: url('https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?q=80&w=400&auto=format&fit=crop');"></span>
+    <span class="hl-word" style="margin-left: -0.1em;">rdinate</span>
+
+    <span class="hl-word">we</span>
+    <span class="hl-word">eventually</span>
+    <span class="hl-word serif">arrive</span>
+    <span class="hl-word">at.</span>
+
+    <div style="height: 4vh; width: 100%;"></div>
+
+    <span class="hl-word" style="font-size: clamp(1.2rem, 2vw, 3rem); color: var(--text-muted);">It is an
+     ephemeral,</span>
+    <span class="hl-word" style="text-transform: uppercase; letter-spacing: -0.05em; font-weight: 500;">delicate</span>
+
+    <span class="hl-img arch hover-target"
+     style="background-image: url('https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=400&auto=format&fit=crop');"></span>
+
+    <span class="hl-word" style="font-size: clamp(1.2rem, 2vw, 3rem); color: var(--text-muted);">manner of
+     traveling.</span>
+
+    <div style="height: 4vh; width: 100%;"></div>
+
+    <span class="hl-word">We</span>
+    <span class="hl-word">spend</span>
+    <span class="hl-word">decades</span>
+    <span class="hl-word">chasing</span>
+    <span class="hl-word">t</span>
+
+    <span class="hl-img circle hover-target"
+     style="background-image: url('https://images.unsplash.com/photo-1507608616759-54f48f0af0ee?q=80&w=400&auto=format&fit=crop');"></span>
+    <span class="hl-word" style="margin-left: -0.1em;">m</span>
+    <span class="hl-img circle hover-target"
+     style="background-image: url('https://images.unsplash.com/photo-1507608616759-54f48f0af0ee?q=80&w=400&auto=format&fit=crop');"></span>
+    <span class="hl-word" style="margin-left: -0.1em;">rr</span>
+    <span class="hl-img circle hover-target"
+     style="background-image: url('https://images.unsplash.com/photo-1507608616759-54f48f0af0ee?q=80&w=400&auto=format&fit=crop');"></span>
+    <span class="hl-word" style="margin-left: -0.1em;">w,</span>
+
+    <span class="hl-word">missing</span>
+    <span class="hl-word">the</span>
+    <span class="hl-word serif">euphoria</span>
+    <br class="desktop-only">
+    <span class="hl-word">embedded</span>
+    <span class="hl-word">in</span>
+    <span class="hl-word">the</span>
+    <span class="hl-word serif" style="border-bottom: 3px solid var(--accent);">stillness.</span>
+   </div>
+  </section>
+
+  <section class="section s-expand theme-dark" id="expand-trigger">
+   <div class="expand-wrapper">
+    <div class="expand-container" id="expand-box">
+     <img loading="lazy"
+      src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?q=80&w=2500&auto=format&fit=crop"
+      alt="Epic Landscape" class="expand-img" id="expand-img">
+    </div>
+    <div class="expand-text w-full flex-center">
+     <div class="t-caption mb-4" style="letter-spacing: 0.3em; color: rgba(255,255,255,0.7);">The Climax of Being</div>
+     <h2 class="t-display italic" style="color: #fff;">Breathe.</h2>
+    </div>
+   </div>
+  </section>
+
+  <section class="s-horiz theme-light" id="hz-trigger">
+   <div class="horiz-track">
+
+    <div class="h-panel">
+     <div class="h-text">
+      <div class="t-caption text-accent mb-6 gs-fade">Observation A</div>
+      <h2 class="t-h2 split-words mb-6"><span class="italic font-serif">The Void.</span></h2>
+      <p class="t-body gs-fade">The absence of noise is where the mind expands. In the profound quiet of isolation, the
+       frantic ego dissolves, leaving behind a crystalline clarity of thought.</p>
+     </div>
+     <div class="img-mask h-img hz-img hover-scale hover-target">
+      <img loading="lazy"
+       src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1600&auto=format&fit=crop"
+       class="img-parallax" alt="Architecture Space">
+     </div>
+    </div>
+
+    <div class="h-panel">
+     <div class="h-text">
+      <div class="t-caption text-accent mb-6 gs-fade">Observation B</div>
+      <h2 class="t-h2 split-words mb-6"><span class="italic font-serif">The Friction.</span></h2>
+      <p class="t-body gs-fade">Joy requires kinetic energy. It is the deliberate act of stepping into the unknown,
+       embracing the raw resistance of life, and finding an undeniable rhythm within the chaos.</p>
+     </div>
+     <div class="img-mask h-img hz-img hover-scale hover-target">
+      <img loading="lazy"
+       src="https://images.unsplash.com/photo-1505144808419-1957a94ca61e?q=80&w=1600&auto=format&fit=crop"
+       class="img-parallax" alt="Dark Ocean Waves">
+     </div>
+    </div>
+
+    <div class="h-panel">
+     <div class="h-text">
+      <div class="t-caption text-accent mb-6 gs-fade">Observation C</div>
+      <h2 class="t-h2 split-words mb-6"><span class="italic font-serif">The Meaning.</span></h2>
+      <p class="t-body gs-fade">When daily actions serve a narrative far greater than the self, the turbulence of life
+       seamlessly transforms from a chaotic storm into a navigable sea.</p>
+     </div>
+     <div class="img-mask h-img hz-img hover-scale hover-target">
+      <img loading="lazy"
+       src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1600&auto=format&fit=crop"
+       class="img-parallax" alt="Mountain Peak">
+     </div>
+    </div>
+
+   </div>
+  </section>
+
+  <section class="section s-list theme-dark padding-y padding-x" id="theme-trigger-dark">
+   <div class="t-caption text-accent mb-10 gs-fade text-center">The Taxonomy of Emotion</div>
+
+   <div class="list-wrap" id="hover-list">
+    <div class="l-item hover-trigger" data-idx="0">
+     <h3 class="t-h1 l-title">Intentional Serenity</h3>
+     <span class="t-caption">01 — Stillness</span>
+    </div>
+    <div class="l-item hover-trigger" data-idx="1">
+     <h3 class="t-h1 l-title">Shared Vulnerability</h3>
+     <span class="t-caption">02 — Connection</span>
+    </div>
+    <div class="l-item hover-trigger" data-idx="2">
+     <h3 class="t-h1 l-title">Kinetic Momentum</h3>
+     <span class="t-caption">03 — Movement</span>
+    </div>
+    <div class="l-item hover-trigger" data-idx="3">
+     <h3 class="t-h1 l-title">Enduring Purpose</h3>
+     <span class="t-caption">04 — Meaning</span>
+    </div>
+    <div class="l-item hover-trigger" data-idx="4">
+     <h3 class="t-h1 l-title">Radical Acceptance</h3>
+     <span class="t-caption">05 — Grace</span>
+    </div>
+   </div>
+
+   <div class="cursor-img-follower" id="cursor-gallery">
+    <div class="cg-inner">
+     <img
+      src="https://images.unsplash.com/photo-1506452305024-9d3f02d1c9b5?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      class="cg-img active" alt="Misty Forest">
+     <img src="https://images.unsplash.com/photo-1511895426328-dc8714191300?q=80&w=800&auto=format&fit=crop"
+      class="cg-img" alt="Connection">
+     <img src="https://images.unsplash.com/photo-1518837695005-2083093ee35b?q=80&w=800&auto=format&fit=crop"
+      class="cg-img" alt="Movement">
+     <img src="https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?q=80&w=800&auto=format&fit=crop"
+      class="cg-img" alt="Purpose">
+     <img src="https://images.unsplash.com/photo-1600607686527-6fb886090705?q=80&w=800&auto=format&fit=crop"
+      class="cg-img" alt="Acceptance">
+    </div>
+   </div>
+  </section>
+
+  <section class="section theme-dark s-marquee">
+   <div class="marquee-wrap">
+    <h1 class="marquee-text">ELEVATE THE MUNDANE ✦ SEEK THE LIGHT ✦ </h1>
+    <h1 class="marquee-text">ELEVATE THE MUNDANE ✦ SEEK THE LIGHT ✦ </h1>
+    <h1 class="marquee-text">ELEVATE THE MUNDANE ✦ SEEK THE LIGHT ✦ </h1>
+   </div>
+  </section>
+
+  <section class="section padding-y padding-x theme-light" id="theme-trigger-light">
+
+   <div class="flex-center w-full mx-auto" style="margin-bottom: 8vh; max-width: 900px;">
+    <div class="t-caption text-accent mb-6 gs-fade">The Granular Details</div>
+    <h2 class="t-body-lg gs-fade"
+     style="text-align: center; font-size: clamp(1.5rem, 3vw, 3rem); font-family: var(--font-serif); font-style: italic;">
+     Joy whispers in the mundane. The geometry of light on a wall, a passing glance, the warmth of a natural texture.
+    </h2>
+   </div>
+
+   <div class="archive-grid">
+    <div class="grid-col" data-speed="1.2">
+     <div class="img-mask ar-square hover-scale hover-target"><img loading="lazy"
+       src="https://images.unsplash.com/photo-1505322022379-7c3353ee6291?q=80&w=800&auto=format&fit=crop"
+       class="img-parallax" alt="Detail 1"></div>
+     <div class="img-mask ar-portrait hover-scale hover-target"><img loading="lazy"
+       src="https://images.unsplash.com/photo-1426604966848-d7adac402bff?q=80&w=800&auto=format&fit=crop"
+       class="img-parallax" alt="Detail 2"></div>
+    </div>
+    <div class="grid-col" data-speed="0.85">
+     <div class="img-mask ar-portrait hover-scale hover-target"><img loading="lazy"
+       src="https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=800&auto=format&fit=crop"
+       class="img-parallax" alt="Dew Drops"></div>
+     <div class="img-mask ar-square hover-scale hover-target"><img loading="lazy"
+       src="https://images.unsplash.com/photo-1445053023192-8d45cb66099d?q=80&w=800&auto=format&fit=crop"
+       class="img-parallax" alt="Detail 4"></div>
+    </div>
+    <div class="grid-col" data-speed="1.1">
+     <div class="img-mask ar-square hover-scale hover-target"><img loading="lazy"
+       src="https://images.unsplash.com/photo-1495474472204-51a50516246f?q=80&w=800&auto=format&fit=crop"
+       class="img-parallax" alt="Detail 5"></div>
+     <div class="img-mask ar-portrait hover-scale hover-target"><img loading="lazy"
+       src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?q=80&w=800&auto=format&fit=crop"
+       class="img-parallax" alt="Detail 6"></div>
+    </div>
+   </div>
+  </section>
+
+  <section class="section theme-light padding-x"
+   style="justify-content: flex-end; padding-bottom: 4vh; padding-top: 15vh;">
+   <div class="text-center w-full" style="margin-bottom: 15vh;">
+    <h2 class="t-h2 split-words mb-4">There is no path to happiness.</h2>
+    <h1 class="t-display split-words text-accent italic">Arrive.</h1>
+   </div>
+
+   <footer class="w-full gs-fade"
+    style="border-top: 1px solid rgba(28,26,23,0.15); padding-top: 2vw; display: flex; justify-content: space-between; align-items: center;">
+    <div class="t-caption text-muted">© 2026 Editorial Framework</div>
+    <div class="t-caption hover-target text-accent" style="cursor: pointer;" onclick="window.scrollTo(0,0)">Return to
+     Origin</div>
+   </footer>
+  </section>
+
+ </main>
