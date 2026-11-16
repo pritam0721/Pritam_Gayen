@@ -26,6 +26,23 @@ document.addEventListener('DOMContentLoaded', () => {
   const supportsCustomCursor = window.matchMedia(
     '(hover: hover) and (pointer: fine)',
   ).matches;
+  const creativeSection = document.querySelector('.s-creative');
+
+  if (creativeSection && !reducedMotion) {
+    const revealItems = creativeSection.querySelectorAll('.hl-word, .hl-img');
+    gsap.to(revealItems, {
+      opacity: 1,
+      filter: 'grayscale(0%)',
+      stagger: 0.05,
+      scrollTrigger: {
+        trigger: creativeSection.querySelector('.hl-container'),
+        start: 'top 75%',
+        end: 'bottom 60%',
+        scrub: 1,
+      },
+    });
+  }
+
   const lenis = reducedMotion
     ? null
     : new Lenis({
