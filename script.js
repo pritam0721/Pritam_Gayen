@@ -26,21 +26,670 @@ document.addEventListener('DOMContentLoaded', () => {
   const supportsCustomCursor = window.matchMedia(
     '(hover: hover) and (pointer: fine)',
   ).matches;
+  const nav = document.querySelector('.nav');
   const creativeSection = document.querySelector('.s-creative');
+  const systemsOverviewElement = document.querySelector('.systems-overview');
+  const systemsMapElement = systemsOverviewElement
+    ? systemsOverviewElement.querySelector('.systems-map')
+    : null;
+  const systemsRiverElement = systemsMapElement
+    ? systemsMapElement.querySelector('.systems-river')
+    : null;
+  const systemsRiverProgressElement = systemsRiverElement
+    ? systemsRiverElement.querySelector('.systems-river-progress')
+    : null;
+  const systemsMapNodes = systemsMapElement
+    ? Array.from(systemsMapElement.querySelectorAll('.systems-node'))
+    : [];
+  const updateSystemsRiverGeometry = () => {
+    if (
+      !systemsMapElement ||
+      !systemsRiverElement ||
+      !systemsRiverProgressElement ||
+      systemsMapNodes.length === 0
+    ) {
+      return;
+    }
+
+    const mapBounds = systemsMapElement.getBoundingClientRect();
+    if (!mapBounds.width || !mapBounds.height) return;
+
+    const points = systemsMapNodes.map((node) => {
+      const iconBounds = node
+        .querySelector('.systems-node-icon')
+        .getBoundingClientRect();
+
+      return {
+        x: iconBounds.left + iconBounds.width / 2 - mapBounds.left,
+        y: iconBounds.top + iconBounds.height / 2 - mapBounds.top,
+      };
+    });
+    const pathData = points.reduce((data, point, index) => {
+      if (index === 0) return `M ${point.x} ${point.y}`;
+
+      const previous = points[index - 1];
+      const controlY = previous.y + (point.y - previous.y) / 2;
+      return `${data} C ${previous.x} ${controlY}, ${point.x} ${controlY}, ${point.x} ${point.y}`;
+    }, '');
+
+    systemsRiverElement.setAttribute(
+      'viewBox',
+      `0 0 ${mapBounds.width} ${mapBounds.height}`,
+    );
+    systemsRiverProgressElement.setAttribute('d', pathData);
+    if (!reducedMotion) {
+      const riverLength = systemsRiverProgressElement.getTotalLength();
+      systemsRiverProgressElement.style.strokeDasharray =
+        `${riverLength} ${riverLength}`;
+      systemsRiverProgressElement.style.strokeDashoffset = `${riverLength}`;
+    }
+  };
+
+  let systemsMapObserver;
+  if (systemsMapElement) {
+    updateSystemsRiverGeometry();
+    systemsMapObserver = new ResizeObserver(() => {
+      updateSystemsRiverGeometry();
+      ScrollTrigger.refresh();
+    });
+    systemsMapObserver.observe(systemsMapElement);
+    window.addEventListener('resize', () => {
+      updateSystemsRiverGeometry();
+      if (systemsMapObserver) ScrollTrigger.refresh();
+    });
+  }
+
+  if (nav && supportsCustomCursor) {
+    let navHideTimeout;
+    const revealNav = () => {
+      window.clearTimeout(navHideTimeout);
+      nav.classList.add('is-visible');
+    };
+    const scheduleNavHide = () => {
+      window.clearTimeout(navHideTimeout);
+      navHideTimeout = window.setTimeout(() => {
+        if (!nav.matches(':hover') && !nav.contains(document.activeElement)) {
+          nav.classList.remove('is-visible');
+        }
+      }, 450);
+    };
+
+    window.addEventListener('pointermove', (event) => {
+      if (event.pointerType !== 'mouse') return;
+      if (event.clientY <= 22) {
+        revealNav();
+      } else if (nav.classList.contains('is-visible') && !nav.matches(':hover')) {
+        scheduleNavHide();
+      }
+    });
+    nav.addEventListener('pointerenter', revealNav);
+    nav.addEventListener('pointerleave', scheduleNavHide);
+    nav.addEventListener('focusin', revealNav);
+    nav.addEventListener('focusout', (event) => {
+      if (!nav.contains(event.relatedTarget)) scheduleNavHide();
+    });
+  }
+
+  if (nav) {
+    const pageSections = Array.from(
+      document.querySelectorAll('main > section'),
+    );
+    const updateNavTheme = () => {
+      const referenceY = window.innerHeight * 0.55;
+      const sectionAtReference = pageSections.find((section) => {
+        const bounds = section.getBoundingClientRect();
+        return bounds.top <= referenceY && bounds.bottom > referenceY;
+      });
+
+      if (!sectionAtReference) return;
+      const isCreative = sectionAtReference === creativeSection;
+      nav.classList.toggle('nav-theme-petrol', isCreative);
+      nav.classList.toggle(
+        'nav-theme-dark',
+        !isCreative && sectionAtReference.classList.contains('theme-dark'),
+      );
+    };
+
+    window.addEventListener('scroll', updateNavTheme, { passive: true });
+    window.addEventListener('resize', updateNavTheme);
+    ScrollTrigger.addEventListener('refresh', updateNavTheme);
+    updateNavTheme();
+  }
 
   if (creativeSection && !reducedMotion) {
-    const revealItems = creativeSection.querySelectorAll('.hl-word, .hl-img');
-    gsap.to(revealItems, {
-      opacity: 1,
-      filter: 'grayscale(0%)',
-      stagger: 0.05,
-      scrollTrigger: {
-        trigger: creativeSection.querySelector('.hl-container'),
-        start: 'top 75%',
-        end: 'bottom 60%',
-        scrub: 1,
+    const creativeIntro = creativeSection.querySelector('.creative-intro');
+    const systemsOverview = systemsOverviewElement;
+    const creativeBeats = Array.from(
+      creativeSection.querySelectorAll('.creative-beat'),
+    );
+    const creativeBeatsContainer =
+      creativeSection.querySelector('.creative-beats');
+    const creativeOutro = creativeSection.querySelector('.creative-outro');
+    const progressCurrent = creativeSection.querySelector(
+      '.creative-progress-current',
+    );
+    const progressFill = creativeSection.querySelector(
+      '.creative-progress-fill',
+    );
+    const creativeMedia = gsap.matchMedia();
+
+    creativeMedia.add(
+      {
+        isDesktop: '(min-width: 761px)',
+        isMobile: '(max-width: 760px)',
       },
-    });
+      (context) => {
+        const { isDesktop } = context.conditions;
+
+        gsap.fromTo(
+          creativeIntro,
+          { autoAlpha: 0, y: 28 },
+          {
+            autoAlpha: 1,
+            y: 0,
+            duration: 0.9,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: creativeIntro,
+              start: 'top 82%',
+              toggleActions: 'play none none reverse',
+            },
+          },
+        );
+
+        const systemsNodes = systemsMapNodes;
+        const systemsRiverProgress = systemsRiverProgressElement;
+        systemsOverview.classList.remove('is-complete');
+        systemsNodes.forEach((node) => node.classList.remove('is-complete'));
+        const systemsTimeline = gsap.timeline({
+          onStart: () => systemsOverview.classList.add('is-running'),
+          onComplete: () => {
+            systemsOverview.classList.remove('is-running');
+            systemsOverview.classList.add('is-complete');
+          },
+          onReverseComplete: () => {
+            systemsOverview.classList.remove('is-running', 'is-complete');
+          },
+          scrollTrigger: {
+            trigger: systemsOverview,
+            start: 'top 78%',
+            end: 'bottom 40%',
+            scrub: 0.9,
+            invalidateOnRefresh: true,
+          },
+        });
+
+        systemsTimeline.fromTo(
+          systemsRiverProgress,
+          { strokeDashoffset: () => systemsRiverProgress.getTotalLength() },
+          { strokeDashoffset: 0, duration: 1, ease: 'none' },
+          0,
+        );
+        systemsNodes.forEach((node, index) => {
+          const position = 0.04 + (index / (systemsNodes.length - 1)) * 0.9;
+          const icon = node.querySelector('.systems-node-icon');
+          const copy = node.querySelector('.systems-node-copy');
+          const glowTargets = [icon, copy];
+          const accent = getComputedStyle(node)
+            .getPropertyValue('--system-accent')
+            .trim();
+
+          systemsTimeline.fromTo(
+            node,
+            { autoAlpha: 0, scale: 0.82 },
+            {
+              autoAlpha: 1,
+              scale: 1,
+              duration: 0.1,
+              ease: 'back.out(1.7)',
+              onComplete: () => node.classList.add('is-complete'),
+              onReverseComplete: () => node.classList.remove('is-complete'),
+            },
+            position,
+          );
+          systemsTimeline.fromTo(
+            icon,
+            { scale: 0.45, rotation: -14 },
+            {
+              scale: 1,
+              rotation: 0,
+              duration: 0.16,
+              ease: 'back.out(1.7)',
+            },
+            position + 0.01,
+          );
+          systemsTimeline.to(
+            glowTargets,
+            {
+              boxShadow: '0 0 15px rgba(255, 255, 255, 0.4)',
+              borderColor: accent,
+              duration: 0.08,
+              ease: 'power1.out',
+            },
+            position,
+          );
+          if (index < systemsNodes.length - 1) {
+            const nextPosition =
+              0.04 +
+              ((index + 1) / (systemsNodes.length - 1)) * 0.9;
+            systemsTimeline.to(
+              glowTargets,
+              {
+                boxShadow: '0 0 0 rgba(255, 255, 255, 0)',
+                borderColor: 'rgba(242, 239, 233, 0.2)',
+                duration: 0.08,
+                ease: 'power1.out',
+              },
+              nextPosition - 0.08,
+            );
+          }
+        });
+
+        gsap.fromTo(
+          creativeSection,
+          { backgroundColor: '#F2EFE9', color: '#1C1A17' },
+          {
+            backgroundColor: '#263B38',
+            color: '#F2EFE9',
+            ease: 'none',
+            scrollTrigger: {
+              trigger: creativeSection,
+              start: 'top 88%',
+              end: 'top 18%',
+              scrub: true,
+            },
+          },
+        );
+
+        gsap.fromTo(
+          creativeOutro,
+          { autoAlpha: 0, y: 22 },
+          {
+            autoAlpha: 1,
+            y: 0,
+            duration: 0.75,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: creativeOutro,
+              start: 'top 82%',
+              toggleActions: 'play none none reverse',
+            },
+          },
+        );
+
+        const addArtworkAnimations = (timeline, beat, position) => {
+          const art = beat.querySelector('.capability-art');
+          const metrics = beat.querySelectorAll('.dashboard-metric');
+          const chartBars = beat.querySelectorAll('.chart-bars i');
+          const dashboardStatus = beat.querySelector('.dashboard-status');
+          const aiPrompt = beat.querySelector('.ai-prompt');
+          const aiPromptText = beat.querySelector('.ai-prompt p');
+          const aiThinking = beat.querySelector('.ai-thinking');
+          const aiThinkingDots = beat.querySelectorAll('.ai-thinking i');
+          const aiResponse = beat.querySelector('.ai-response');
+          const aiResponseLines = beat.querySelectorAll('.ai-response-line');
+          const aiTags = beat.querySelector('.ai-tags');
+          const aiSpark = beat.querySelector('.ai-spark');
+          const workflowSteps = beat.querySelectorAll('.workflow-step');
+          const workflowConnectors = beat.querySelectorAll(
+            '.workflow-connector i',
+          );
+          const workflowChecks = beat.querySelectorAll('.workflow-check');
+          const workflowFooter = beat.querySelector('.workflow-footer');
+
+          timeline.fromTo(
+            art,
+            { autoAlpha: 0, y: 16, scale: 0.98 },
+            {
+              autoAlpha: 1,
+              y: 0,
+              scale: 1,
+              duration: 0.34,
+              ease: 'power2.out',
+            },
+            position,
+          );
+
+          if (metrics.length) {
+            timeline.fromTo(
+              metrics,
+              { autoAlpha: 0, y: 14 },
+              {
+                autoAlpha: 1,
+                y: 0,
+                duration: 0.28,
+                stagger: 0.12,
+                ease: 'power2.out',
+              },
+              position + 0.18,
+            );
+            timeline.fromTo(
+              chartBars,
+              { scaleY: 0 },
+              {
+                scaleY: 1,
+                duration: 0.32,
+                stagger: 0.05,
+                ease: 'power3.out',
+              },
+              position + 0.38,
+            );
+            timeline.fromTo(
+              dashboardStatus,
+              { autoAlpha: 0, x: 12 },
+              {
+                autoAlpha: 1,
+                x: 0,
+                duration: 0.25,
+                ease: 'power2.out',
+              },
+              position + 0.48,
+            );
+          }
+
+          if (aiPrompt) {
+            timeline.fromTo(
+              aiSpark,
+              { autoAlpha: 0, scale: 0.55, rotation: -70 },
+              {
+                autoAlpha: 1,
+                scale: 1,
+                rotation: 0,
+                duration: 0.32,
+                ease: 'back.out(1.7)',
+              },
+              position + 0.08,
+            );
+            timeline.fromTo(
+              aiPrompt,
+              { autoAlpha: 0, x: 22 },
+              {
+                autoAlpha: 1,
+                x: 0,
+                duration: 0.32,
+                ease: 'power2.out',
+              },
+              position + 0.2,
+            );
+            timeline.fromTo(
+              aiPromptText,
+              { clipPath: 'inset(0 100% 0 0)' },
+              {
+                clipPath: 'inset(0 0% 0 0)',
+                duration: 0.4,
+                ease: 'power1.out',
+              },
+              position + 0.36,
+            );
+            timeline.set(
+              aiThinking,
+              { display: 'flex', autoAlpha: 0 },
+              position + 0.82,
+            );
+            timeline.fromTo(
+              aiThinking,
+              { autoAlpha: 0, y: 6 },
+              {
+                autoAlpha: 1,
+                y: 0,
+                duration: 0.2,
+                ease: 'power2.out',
+              },
+              position + 0.82,
+            );
+            timeline.fromTo(
+              aiThinkingDots,
+              { autoAlpha: 0.35, scale: 0.7 },
+              {
+                autoAlpha: 1,
+                scale: 1,
+                duration: 0.22,
+                stagger: 0.13,
+                ease: 'power1.out',
+              },
+              position + 0.9,
+            );
+            timeline.to(
+              aiThinking,
+              {
+                autoAlpha: 0,
+                y: -4,
+                duration: 0.18,
+                ease: 'power1.in',
+              },
+              position + 1.55,
+            );
+            timeline.set(
+              aiThinking,
+              { display: 'none' },
+              position + 1.74,
+            );
+            timeline.fromTo(
+              aiResponse,
+              { autoAlpha: 0, y: 8 },
+              {
+                autoAlpha: 1,
+                y: 0,
+                duration: 0.24,
+                ease: 'power2.out',
+              },
+              position + 1.72,
+            );
+            timeline.fromTo(
+              aiResponseLines,
+              {
+                autoAlpha: 0,
+                y: 8,
+                clipPath: 'inset(0 0 100% 0)',
+              },
+              {
+                autoAlpha: 1,
+                y: 0,
+                clipPath: 'inset(0 0 0% 0)',
+                duration: 0.34,
+                stagger: 0.4,
+                ease: 'power2.out',
+              },
+              position + 1.94,
+            );
+            timeline.fromTo(
+              aiTags,
+              { autoAlpha: 0, y: 8 },
+              {
+                autoAlpha: 1,
+                y: 0,
+                duration: 0.24,
+                ease: 'power2.out',
+              },
+              position + 3.12,
+            );
+          }
+
+          if (workflowSteps.length) {
+            timeline.fromTo(
+              workflowSteps,
+              { autoAlpha: 0, x: -14 },
+              {
+                autoAlpha: 1,
+                x: 0,
+                duration: 0.24,
+                stagger: 0.22,
+                ease: 'power2.out',
+              },
+              position + 0.14,
+            );
+            timeline.fromTo(
+              workflowConnectors,
+              { scaleY: 0 },
+              {
+                scaleY: 1,
+                duration: 0.22,
+                stagger: 0.22,
+                ease: 'power1.out',
+              },
+              position + 0.32,
+            );
+            timeline.fromTo(
+              workflowChecks,
+              { scale: 0 },
+              {
+                scale: 1,
+                duration: 0.2,
+                stagger: 0.22,
+                ease: 'back.out(1.8)',
+              },
+              position + 0.34,
+            );
+            timeline.fromTo(
+              workflowFooter,
+              { autoAlpha: 0, y: 8 },
+              {
+                autoAlpha: 1,
+                y: 0,
+                duration: 0.2,
+                ease: 'power2.out',
+              },
+              position + 0.9,
+            );
+          }
+        };
+
+        const updateProgress = (index) => {
+          progressCurrent.textContent = String(index + 1).padStart(2, '0');
+          gsap.to(progressFill, {
+            scaleX: (index + 1) / creativeBeats.length,
+            duration: 0.35,
+            overwrite: true,
+            ease: 'power2.out',
+          });
+        };
+
+        if (isDesktop) {
+          const transitionPoints = [2, 6.5];
+          const slideDuration = 9;
+
+          creativeSection.classList.add('has-scroll-slides');
+          gsap.set(creativeBeats, { autoAlpha: 0, y: 32, scale: 0.98 });
+          gsap.set(creativeBeats[0], { autoAlpha: 1, y: 0, scale: 1 });
+
+          const slideTimeline = gsap.timeline({
+            scrollTrigger: {
+              trigger: creativeBeatsContainer,
+              start: 'top top+=88',
+              end: () =>
+                `+=${window.innerHeight * (creativeBeats.length + 1.5)}`,
+              pin: true,
+              scrub: 1.1,
+              anticipatePin: 1,
+              invalidateOnRefresh: true,
+              onUpdate: (self) => {
+                const timelinePosition = self.progress * slideDuration;
+                const index = transitionPoints.filter(
+                  (point) => timelinePosition >= point,
+                ).length;
+                progressCurrent.textContent = String(index + 1).padStart(
+                  2,
+                  '0',
+                );
+                gsap.set(progressFill, {
+                  scaleX:
+                    (1 + self.progress * (creativeBeats.length - 1)) /
+                    creativeBeats.length,
+                });
+              },
+            },
+          });
+
+          addArtworkAnimations(slideTimeline, creativeBeats[0], 0.12);
+
+          creativeBeats.slice(1).forEach((beat, index) => {
+            const previousBeat = creativeBeats[index];
+            const transitionAt = transitionPoints[index];
+
+            slideTimeline.to(
+              previousBeat,
+              {
+                autoAlpha: 0,
+                y: -40,
+                scale: 0.98,
+                duration: 0.48,
+                ease: 'power2.inOut',
+              },
+              transitionAt,
+            );
+            slideTimeline.fromTo(
+              beat,
+              { autoAlpha: 0, y: 48, scale: 0.98 },
+              {
+                autoAlpha: 1,
+                y: 0,
+                scale: 1,
+                duration: 0.58,
+                ease: 'power2.out',
+              },
+              transitionAt + 0.04,
+            );
+            addArtworkAnimations(
+              slideTimeline,
+              beat,
+              transitionAt + 0.64,
+            );
+          });
+
+          slideTimeline.to(
+            {},
+            {
+              duration: Math.max(
+                0,
+                slideDuration - slideTimeline.duration(),
+              ),
+              ease: 'none',
+            },
+            slideTimeline.duration(),
+          );
+        } else {
+          creativeBeats.forEach((beat, index) => {
+            gsap.fromTo(
+              beat,
+              { autoAlpha: 0, y: 24 },
+              {
+                autoAlpha: 1,
+                y: 0,
+                duration: 0.65,
+                ease: 'power3.out',
+                scrollTrigger: {
+                  trigger: beat,
+                  start: 'top 86%',
+                  toggleActions: 'play none none reverse',
+                },
+              },
+            );
+
+            const artworkTimeline = gsap.timeline({
+              scrollTrigger: {
+                trigger: beat,
+                start: 'top 82%',
+                end: 'center 45%',
+                scrub: 0.6,
+              },
+            });
+            addArtworkAnimations(artworkTimeline, beat, 0);
+
+            ScrollTrigger.create({
+              trigger: beat,
+              start: 'top center',
+              end: 'bottom center',
+              onEnter: () => updateProgress(index),
+              onEnterBack: () => updateProgress(index),
+            });
+          });
+        }
+
+        return () => {
+          creativeSection.classList.remove('has-scroll-slides');
+        };
+      },
+    );
   }
 
   const lenis = reducedMotion
@@ -57,7 +706,6 @@ document.addEventListener('DOMContentLoaded', () => {
     gsap.ticker.lagSmoothing(0);
   }
 
-  gsap.set('.nav', { autoAlpha: 0, y: -20 });
   gsap.set('.s-hero .hero-title', {
     autoAlpha: reducedMotion ? 1 : 0,
     y: reducedMotion ? 0 : 24,
@@ -185,16 +833,6 @@ document.addEventListener('DOMContentLoaded', () => {
         duration: reducedMotion ? 0 : 1.2,
         ease: 'power4.inOut',
       })
-      .to(
-        '.nav',
-        {
-          autoAlpha: 1,
-          y: 0,
-          duration: reducedMotion ? 0 : 0.8,
-          ease: 'power3.out',
-        },
-        reducedMotion ? '>' : '-=0.4',
-      )
       .to(
         heroImageBox,
         {
