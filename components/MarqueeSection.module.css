@@ -1,0 +1,233 @@
+.mq {
+  --mq-bg: var(--bg-dark, #14110f);
+  --mq-ink: #f0ede8;
+  --mq-muted: rgba(240, 237, 232, 0.62);
+  --mq-accent: var(--accent, #e07b5a);
+  --mq-serif: var(--font-serif, "Cormorant Garamond", Georgia, serif);
+  --mq-sans: var(--font-sans, "Inter", system-ui, sans-serif);
+  position: relative;
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  padding: clamp(5rem, 12vh, 9rem) 0 clamp(4rem, 9vh, 7rem);
+  background:
+    radial-gradient(
+      50% 60% at 15% 0%,
+      rgba(224, 123, 90, 0.16),
+      transparent 70%
+    ),
+    var(--mq-bg);
+  color: var(--mq-ink);
+  font-family: var(--mq-sans);
+}
+
+.mqHead {
+  max-width: 62rem;
+  margin: 0 auto 4rem;
+  padding: 0 5vw;
+  text-align: center;
+}
+
+.mqEyebrow {
+  display: inline-block;
+  color: var(--mq-muted);
+  font-size: 0.8rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.mqTitle {
+  margin: 0.7em 0 0;
+  font-size: clamp(2.1rem, 4.6vw, 4.2rem);
+  font-weight: 300;
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+}
+
+.mqTitle em {
+  color: var(--mq-accent);
+  font-family: var(--mq-serif);
+  font-size: 1.1em;
+  font-style: italic;
+  font-weight: 400;
+}
+
+.mqLede {
+  max-width: 38rem;
+  margin: 1.3em auto 0;
+  color: var(--mq-muted);
+  font-size: clamp(0.95rem, 1.2vw, 1.1rem);
+  line-height: 1.65;
+}
+
+.mqSr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.mqRows {
+  display: grid;
+  gap: clamp(1.4rem, 3vw, 2.6rem);
+}
+
+.mqMask {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000 9%,
+    #000 91%,
+    transparent
+  );
+  mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000 9%,
+    #000 91%,
+    transparent
+  );
+}
+
+.mqTrack {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+
+.mqGroup {
+  display: flex;
+  flex: none;
+  align-items: center;
+}
+
+.mqWordItem {
+  display: inline-flex;
+  align-items: center;
+}
+
+.mqWord {
+  font-size: clamp(3.6rem, 11vw, 9.5rem);
+  font-weight: 300;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.isOutline {
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(240, 237, 232, 0.75);
+}
+
+.mqStar {
+  flex: none;
+  margin: 0 clamp(1.2rem, 3vw, 2.8rem);
+  color: var(--mq-accent);
+  font-size: clamp(1.4rem, 3.4vw, 3rem);
+  animation: mqSpin 9s linear infinite;
+}
+
+@keyframes mqSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.mqTrackChips .mqGroup {
+  gap: 1.1rem;
+  padding-right: 1.1rem;
+}
+
+.mqChip {
+  --c: var(--mq-accent);
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.85rem 1.4rem;
+  border: 1px solid rgba(240, 237, 232, 0.18);
+  border-radius: 999px;
+  background: rgba(240, 237, 232, 0.05);
+  font-size: clamp(0.9rem, 1.15vw, 1.05rem);
+  white-space: nowrap;
+  transition:
+    border-color 0.3s,
+    background 0.3s,
+    transform 0.3s;
+}
+
+.mqChip i {
+  width: 0.65em;
+  height: 0.65em;
+  border-radius: 50%;
+  background: var(--c);
+  box-shadow: 0 0 0 0.3em color-mix(in srgb, var(--c) 22%, transparent);
+}
+
+.mqChip b {
+  font-weight: 600;
+}
+
+.mqChip span {
+  color: var(--mq-muted);
+}
+
+.mqChip:hover {
+  border-color: var(--c);
+  background: color-mix(in srgb, var(--c) 12%, transparent);
+  transform: translateY(-3px);
+}
+
+.mqFoot {
+  margin: 2.6rem 0 0;
+  color: var(--mq-muted);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+
+.mqStatic .mqTrack {
+  width: auto;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 0 5vw;
+}
+
+.mqStatic .mqClone {
+  display: none;
+}
+
+.mqStatic .mqGroup {
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.mqStatic .mqMask {
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+
+.mqStatic .mqWord {
+  font-size: clamp(2.2rem, 7vw, 4.5rem);
+}
+
+.mqStatic .mqStar {
+  animation: none;
+}
+
+.mqStatic .mqFoot {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mqStar {
+    animation: none;
+  }
+}

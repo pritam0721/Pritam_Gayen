@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { getImagePlaceholder } from "./image-placeholder";
+import styles from "./StackSection.module.css";
 
 export default function StackSection() {
   return (
@@ -58,11 +59,11 @@ export default function StackSection() {
                 </span>
               </div>
             </div>
-            <div className="cursor-img-follower" id="cursor-gallery">
-              <div className="cg-inner">
+            <div className={styles.cursorImageFollower} id="cursor-gallery">
+              <div className={styles.imageInner}>
                 <Image
                   src={getImagePlaceholder(800, 600)} unoptimized
-                  className="cg-img active"
+                  className={`${styles.image} ${styles.active}`}
                   alt="Front end code"
                   width={800}
                   height={600}
@@ -70,7 +71,7 @@ export default function StackSection() {
                 />
                 <Image
                   src={getImagePlaceholder(800, 600)} unoptimized
-                  className="cg-img"
+                  className={styles.image}
                   alt="Back end code"
                   width={800}
                   height={600}
@@ -78,7 +79,7 @@ export default function StackSection() {
                 />
                 <Image
                   src={getImagePlaceholder(800, 600)} unoptimized
-                  className="cg-img"
+                  className={styles.image}
                   alt="Database schema"
                   width={800}
                   height={600}
@@ -86,7 +87,7 @@ export default function StackSection() {
                 />
                 <Image
                   src={getImagePlaceholder(800, 600)} unoptimized
-                  className="cg-img"
+                  className={styles.image}
                   alt="Terminal on the server"
                   width={800}
                   height={600}
@@ -94,7 +95,7 @@ export default function StackSection() {
                 />
                 <Image
                   src={getImagePlaceholder(800, 600)} unoptimized
-                  className="cg-img"
+                  className={styles.image}
                   alt="Agent workflow diagram"
                   width={800}
                   height={600}

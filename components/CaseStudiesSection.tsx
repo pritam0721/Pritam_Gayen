@@ -1,21 +1,30 @@
 "use client";
 
+import { useRef } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { getImagePlaceholder } from "./image-placeholder";
+import styles from "./CaseStudiesSection.module.css";
 
 export default function CaseStudiesSection() {
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end end"],
+  });
+  const trackX = useTransform(scrollYProgress, [0, 1], ["0%", "-66.6667%"]);
+
   return (
-    <motion.section className="s-horiz theme-light" id="hz-trigger"
+    <motion.section ref={sectionRef} className={`${styles.gallery} theme-light`} id="hz-trigger"
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.05 }}
+      viewport={{ once: true }}
       transition={{ duration: 0.65, ease: "easeOut" }}
     >
             <span id="work"></span>
-            <div className="horiz-track">
-              <div className="h-panel">
-                <div className="h-text">
+            <motion.div className={styles.track} style={{ x: trackX }}>
+              <div className={styles.panel}>
+                <div className={styles.text}>
                   <div className="t-caption text-accent mb-6 gs-fade">
                     {"Custom ERP"}
                   </div>
@@ -31,20 +40,26 @@ export default function CaseStudiesSection() {
                     {"\n              Python / MariaDB / Linux\n            "}
                   </div>
                 </div>
-                <div className="img-mask h-img hz-img hover-scale hover-target">
+                <motion.div
+                  className={`${styles.imageMask} ${styles.image} ${styles.hoverScale} hover-target`}
+                  initial={{ clipPath: "inset(100% 0 0)" }}
+                  whileInView={{ clipPath: "inset(0 0 0)" }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 1, ease: [0.76, 0, 0.24, 1] }}
+                >
                   <Image
                     loading="lazy"
                     src={getImagePlaceholder(1200, 800)} unoptimized
-                    className="img-parallax"
+                    className={styles.imageParallax}
                     alt="ERP screenshot"
                     width={1200}
                     height={800}
-                    sizes="(max-width: 760px) 100vw, 48vw"
+                    sizes="(max-width: 1024px) 90vw, 48vw"
                   />
-                </div>
+                </motion.div>
               </div>
-              <div className="h-panel">
-                <div className="h-text">
+              <div className={styles.panel}>
+                <div className={styles.text}>
                   <div className="t-caption text-accent mb-6 gs-fade">
                     {"\n              Employee platform\n            "}
                   </div>
@@ -60,20 +75,26 @@ export default function CaseStudiesSection() {
                     {"\n              Frappe / HRMS / Python\n            "}
                   </div>
                 </div>
-                <div className="img-mask h-img hz-img hover-scale hover-target">
+                <motion.div
+                  className={`${styles.imageMask} ${styles.image} ${styles.hoverScale} hover-target`}
+                  initial={{ clipPath: "inset(100% 0 0)" }}
+                  whileInView={{ clipPath: "inset(0 0 0)" }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 1, ease: [0.76, 0, 0.24, 1] }}
+                >
                   <Image
                     loading="lazy"
                     src={getImagePlaceholder(1200, 800)} unoptimized
-                    className="img-parallax"
+                    className={styles.imageParallax}
                     alt="HR platform screenshot"
                     width={1200}
                     height={800}
-                    sizes="(max-width: 760px) 100vw, 48vw"
+                    sizes="(max-width: 1024px) 90vw, 48vw"
                   />
-                </div>
+                </motion.div>
               </div>
-              <div className="h-panel">
-                <div className="h-text">
+              <div className={styles.panel}>
+                <div className={styles.text}>
                   <div className="t-caption text-accent mb-6 gs-fade">
                     {"\n              Client platform\n            "}
                   </div>
@@ -89,19 +110,25 @@ export default function CaseStudiesSection() {
                     {"\n              Full stack / Client delivery\n            "}
                   </div>
                 </div>
-                <div className="img-mask h-img hz-img hover-scale hover-target">
+                <motion.div
+                  className={`${styles.imageMask} ${styles.image} ${styles.hoverScale} hover-target`}
+                  initial={{ clipPath: "inset(100% 0 0)" }}
+                  whileInView={{ clipPath: "inset(0 0 0)" }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 1, ease: [0.76, 0, 0.24, 1] }}
+                >
                   <Image
                     loading="lazy"
                     src={getImagePlaceholder(1200, 800)} unoptimized
-                    className="img-parallax"
+                    className={styles.imageParallax}
                     alt="Jigsaw Compliance screenshot"
                     width={1200}
                     height={800}
-                    sizes="(max-width: 760px) 100vw, 48vw"
+                    sizes="(max-width: 1024px) 90vw, 48vw"
                   />
-                </div>
+                </motion.div>
               </div>
-            </div>
+            </motion.div>
           </motion.section>
   );
 }
