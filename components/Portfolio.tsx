@@ -90,8 +90,8 @@ export default function Portfolio() {
           <CapabilitiesSection />
           <ExpandSection />
           <CaseStudiesSection />
-          <StackSection />
           <MarqueeSection />
+          <StackSection />
           <ArchiveSection />
           <ContactSection />
         </main>
